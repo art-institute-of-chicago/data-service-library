@@ -18,4 +18,10 @@ $app->get('/', function () use ($app) {
 
 $app->group(['prefix' => 'v1'], function() use ($app) {
 
+    $app->get('materials', 'MaterialController@index');
+    $app->get('materials/{id}', 'MaterialController@show');
+
+    $app->get('terms', 'TermController@index');
+    $app->get('terms/{id}', 'TermController@show');
+
 });
