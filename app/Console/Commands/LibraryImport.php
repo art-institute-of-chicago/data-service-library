@@ -2,6 +2,9 @@
 
 namespace App\Console\Commands;
 
+use App\Material;
+use App\Term;
+
 use GrahamCampbell\Flysystem\Facades\Flysystem;
 
 use Illuminate\Console\Command;
@@ -26,7 +29,7 @@ class LibraryImport extends AbstractCommand
         $paths = collect( $paths );
 
         // Uncomment for testing
-        $paths = $paths->slice(0,2);
+        // $paths = $paths->slice(0,2);
 
         // Turn the full paths to relative for Flysystem
         $files = $paths->map( function( $path ) use ( $directory ) {
@@ -35,13 +38,7 @@ class LibraryImport extends AbstractCommand
         });
 
         // Process each matching file
-        $out = $paths->map( [$this, 'processFile'] );
-
-        // Collapses the array of arrays
-        $out = array_merge( ... $out->all() );
-
-        // TODO: Make this write to database
-        dd( json_encode( $out, JSON_NUMERIC_CHECK | JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE  ) );
+        $paths->map( [$this, 'processFile'] );
 
     }
 
@@ -63,9 +60,9 @@ class LibraryImport extends AbstractCommand
         $docs = collect( $json->docs );
 
         // Uncomment for testing
-        $docs = $docs->slice(0,5);
+        // $docs = $docs->slice(0,5);
 
-        return $docs->map( [ $this, 'processDoc' ] )->all();
+        return $docs->map( [ $this, 'processDoc' ] );
 
     }
 
@@ -80,17 +77,48 @@ class LibraryImport extends AbstractCommand
 
         $links = $this->getLinks( $doc );
 
-        return [
+        $source = (object) [
 
             'id' => $this->unwrap( $doc->pnx->control->recordid ),
             'title' => $this->unwrap( $doc->pnx->display->title ),
-            'date' => $this->unwrap( $doc->pnx->search->creationdate ),
+            'date' => $this->unwrap( $doc->pnx->search->creationdate ?? null ),
             'creators' => $this->filterLinks( $links, 'creatorcontrib' ),
             'subjects' => $this->filterLinks( $links, 'subject' ),
 
             // 'language' => $doc->pnx->display->language,
 
         ];
+
+        $creators = $source->creators->map( [$this, 'processTerm'] );
+        $subjects = $source->subjects->map( [$this, 'processTerm'] );
+
+        $material = Material::findOrNew( $source->id );
+        $material->id = $source->id;
+        $material->title = $source->title;
+        $material->date = $source->date;
+        $material->save();
+
+        $material->creators()->sync( $creators->all() );
+        $material->subjects()->sync( $subjects->all() );
+
+        $this->info('Imported Material #' . $material->id .': ' . $material->title );
+
+        return $source;
+
+    }
+
+    public function processTerm( $source )
+    {
+
+        $term = Term::findOrNew( $source['id'] );
+        $term->id = $source['id'];
+        $term->uri = $source['uri'];
+        $term->title = $source['title'];
+        $term->save();
+
+        $this->info('Imported Term #' . $term->id .': ' . $term->title );
+
+        return $term->id;
 
     }
 
@@ -111,12 +139,12 @@ class LibraryImport extends AbstractCommand
 
         // Remove the 'key' key
         $cleaned = $matches->transform( function( $link ) {
-            return $link->except(['key']);
+            return collect($link)->except(['key'])->all();
         });
 
         // Without calling values, integer keys can remain:
         // https://laravel.com/docs/5.4/collections#method-values
-        return $cleaned->values()->all();
+        return $cleaned->values();
 
     }
 
@@ -131,7 +159,7 @@ class LibraryImport extends AbstractCommand
     {
 
         // Handle this like a collection
-        $uris = collect( $doc->pnx->links->uri );
+        $uris = collect( $doc->pnx->links->uri ?? [] );
 
         // $uri is an array of delimited strings
         $links = $uris->map( function( $uri ) {
@@ -145,11 +173,15 @@ class LibraryImport extends AbstractCommand
             // Turn it into a collection
             $parts = collect( $parts );
 
-            return collect([
+            // Get Library of Congress data
+            $lc = $this->getLcData( $parts );
+
+            return [
+                'id' => $lc['id'],
+                'uri' => $lc['uri'],
+                'title' => $this->getLinkPart( $parts, 'V' ),
                 'key' => $this->getLinkPart( $parts, 'A' ),
-                'name' => $this->getLinkPart( $parts, 'V' ),
-                'id' => $this->getLcId( $parts ),
-            ]);
+            ];
 
         });
 
@@ -167,10 +199,15 @@ class LibraryImport extends AbstractCommand
      * @param \Illuminate\Support\Collection $parts
      * @return string
      */
-    private function getLcId( $parts )
+    private function getLcData( $parts )
     {
 
-        return basename( $this->getLinkPart( $parts, 'U(uri) http://id.loc.gov' ) );
+        $part = $this->getLinkPart( $parts, 'U(uri) http://id.loc.gov' );
+
+        return [
+            'id' => basename( $part ),
+            'uri' => 'http://id.loc.gov' . $part,
+        ];
 
     }
 
