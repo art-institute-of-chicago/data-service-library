@@ -8,5 +8,11 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'v1'], function()
 {
-    //
+
+    $app->get('materials', 'MaterialController@index');
+    $app->get('materials/{id}', 'MaterialController@show');
+
+    $app->get('terms', 'TermController@index');
+    $app->get('terms/{id}', 'TermController@show');
+
 });
