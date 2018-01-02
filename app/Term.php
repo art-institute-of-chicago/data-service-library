@@ -2,7 +2,7 @@
 
 namespace App;
 
-use App\BaseModel;
+use Aic\Hub\Foundation\AbstractModel as BaseModel;
 
 class Term extends BaseModel
 {
