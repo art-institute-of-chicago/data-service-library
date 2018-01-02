@@ -4,8 +4,15 @@
     "keywords": ["framework", "laravel"],
     "license": "MIT",
     "type": "project",
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/art-institute-of-chicago/data-hub-foundation.git"
+        }
+    ],
     "require": {
         "php": ">=7.0.0",
+        "aic/data-hub-foundation": "dev-master#7062eda6c7d1fac0c292649183cb218bd729d9f6",
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0"
