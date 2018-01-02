@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-class MaterialController extends Controller
+use Aic\Hub\Foundation\AbstractController as BaseController;
+
+class MaterialController extends BaseController
 {
 
     protected $model = \App\Material::class;

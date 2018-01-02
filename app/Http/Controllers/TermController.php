@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
-class TermController extends Controller
+use Aic\Hub\Foundation\AbstractController as BaseController;
+
+class TermController extends BaseController
 {
 
     protected $model = \App\Term::class;
