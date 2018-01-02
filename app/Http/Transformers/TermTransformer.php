@@ -3,9 +3,9 @@
 namespace App\Http\Transformers;
 
 use App\Term;
-use League\Fractal\TransformerAbstract;
+use Aic\Hub\Foundation\AbstractTransformer;
 
-class TermTransformer extends TransformerAbstract
+class TermTransformer extends AbstractTransformer
 {
 
     protected $availableIncludes = ['creator_of', 'subject_of'];
