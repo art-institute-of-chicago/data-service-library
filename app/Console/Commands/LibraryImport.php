@@ -7,9 +7,9 @@ use App\Term;
 
 use GrahamCampbell\Flysystem\Facades\Flysystem;
 
-use Illuminate\Console\Command;
+use Aic\Hub\Foundation\AbstractCommand;
 
-class LibraryImport extends Command
+class LibraryImport extends AbstractCommand
 {
 
     protected $signature = 'library:import';
