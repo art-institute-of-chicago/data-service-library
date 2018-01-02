@@ -9,7 +9,7 @@ use GrahamCampbell\Flysystem\Facades\Flysystem;
 
 use Illuminate\Console\Command;
 
-class LibraryImport extends AbstractCommand
+class LibraryImport extends Command
 {
 
     protected $signature = 'library:import';

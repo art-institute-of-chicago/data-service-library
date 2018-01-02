@@ -6,7 +6,7 @@ use GrahamCampbell\Flysystem\Facades\Flysystem;
 
 use Illuminate\Console\Command;
 
-class LibraryDownload extends AbstractCommand
+class LibraryDownload extends Command
 {
 
     protected $signature = 'library:download';
