@@ -169,9 +169,13 @@ return [
          */
 
         /*
+         * Foundation Service Providers...
+         */
+        Aic\Hub\Foundation\ResourceServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],
