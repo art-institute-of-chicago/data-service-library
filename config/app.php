@@ -154,7 +154,7 @@ return [
         Illuminate\Hashing\HashServiceProvider::class,
         // Illuminate\Mail\MailServiceProvider::class,
         // Illuminate\Notifications\NotificationServiceProvider::class,
-        Illuminate\Pagination\PaginationServiceProvider::class,
+        Illuminate\Pagination\PaginationServiceProvider::class, // requires views
         Illuminate\Pipeline\PipelineServiceProvider::class,
         Illuminate\Queue\QueueServiceProvider::class,
         // Illuminate\Redis\RedisServiceProvider::class,
@@ -162,16 +162,20 @@ return [
         // Illuminate\Session\SessionServiceProvider::class,
         // Illuminate\Translation\TranslationServiceProvider::class,
         // Illuminate\Validation\ValidationServiceProvider::class,
-        // Illuminate\View\ViewServiceProvider::class,
+        Illuminate\View\ViewServiceProvider::class,
 
         /*
          * Package Service Providers...
          */
 
         /*
+         * Foundation Service Providers...
+         */
+        Aic\Hub\Foundation\ResourceServiceProvider::class,
+
+        /*
          * Application Service Providers...
          */
-        App\Providers\AppServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
     ],
@@ -192,7 +196,7 @@ return [
         'App' => Illuminate\Support\Facades\App::class,
         'Artisan' => Illuminate\Support\Facades\Artisan::class,
         // 'Auth' => Illuminate\Support\Facades\Auth::class,
-        // 'Blade' => Illuminate\Support\Facades\Blade::class,
+        'Blade' => Illuminate\Support\Facades\Blade::class,
         // 'Broadcast' => Illuminate\Support\Facades\Broadcast::class,
         'Bus' => Illuminate\Support\Facades\Bus::class,
         'Cache' => Illuminate\Support\Facades\Cache::class,
@@ -201,7 +205,7 @@ return [
         'Crypt' => Illuminate\Support\Facades\Crypt::class,
         'DB' => Illuminate\Support\Facades\DB::class,
         'Eloquent' => Illuminate\Database\Eloquent\Model::class,
-        // 'Event' => Illuminate\Support\Facades\Event::class,
+        'Event' => Illuminate\Support\Facades\Event::class,
         'File' => Illuminate\Support\Facades\File::class,
         'Gate' => Illuminate\Support\Facades\Gate::class,
         'Hash' => Illuminate\Support\Facades\Hash::class,
@@ -220,7 +224,7 @@ return [
         // 'Session' => Illuminate\Support\Facades\Session::class,
         'Storage' => Illuminate\Support\Facades\Storage::class,
         'URL' => Illuminate\Support\Facades\URL::class,
-        'Validator' => Illuminate\Support\Facades\Validator::class,
+        // 'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
 
     ],

@@ -9,10 +9,10 @@ Route::get('/', function () {
 Route::group(['prefix' => 'v1'], function()
 {
 
-    $app->get('materials', 'MaterialController@index');
-    $app->get('materials/{id}', 'MaterialController@show');
+    Route::get('materials', 'MaterialController@index');
+    Route::get('materials/{id}', 'MaterialController@show');
 
-    $app->get('terms', 'TermController@index');
-    $app->get('terms/{id}', 'TermController@show');
+    Route::get('terms', 'TermController@index');
+    Route::get('terms/{id}', 'TermController@show');
 
 });

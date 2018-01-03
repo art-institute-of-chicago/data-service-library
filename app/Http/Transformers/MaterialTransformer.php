@@ -3,23 +3,26 @@
 namespace App\Http\Transformers;
 
 use App\Material;
-use League\Fractal\TransformerAbstract;
+use Aic\Hub\Foundation\AbstractTransformer;
 
-class MaterialTransformer extends TransformerAbstract
+class MaterialTransformer extends AbstractTransformer
 {
 
     protected $availableIncludes = ['creators', 'subjects'];
 
     protected $defaultIncludes = ['creators', 'subjects'];
 
-    public function transform(Material $material)
+    public function transform($material)
     {
 
-        return [
+        $data = [
             'id' => $material->id,
             'title' => $material->title,
             'date' => $material->date,
         ];
+
+        // Enables ?fields= functionality
+        return parent::transform($data);
 
     }
 
