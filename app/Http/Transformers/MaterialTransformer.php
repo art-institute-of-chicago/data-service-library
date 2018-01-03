@@ -12,14 +12,17 @@ class MaterialTransformer extends AbstractTransformer
 
     protected $defaultIncludes = ['creators', 'subjects'];
 
-    public function transform(Material $material)
+    public function transform($material)
     {
 
-        return [
+        $data = [
             'id' => $material->id,
             'title' => $material->title,
             'date' => $material->date,
         ];
+
+        // Enables ?fields= functionality
+        return parent::transform($data);
 
     }
 

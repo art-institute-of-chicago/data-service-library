@@ -10,14 +10,17 @@ class TermTransformer extends AbstractTransformer
 
     protected $availableIncludes = ['creator_of', 'subject_of'];
 
-    public function transform(Term $term)
+    public function transform($term)
     {
 
-        return [
+        $data = [
             'id' => $term->id,
             'uri' => $term->uri,
             'title' => $term->title,
         ];
+
+        // Enables ?fields= functionality
+        return parent::transform($data);
 
     }
 
