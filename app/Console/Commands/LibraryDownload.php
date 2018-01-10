@@ -2,7 +2,7 @@
 
 namespace App\Console\Commands;
 
-use GrahamCampbell\Flysystem\Facades\Flysystem;
+use Illuminate\Support\Facades\Storage;
 
 use Aic\Hub\Foundation\AbstractCommand;
 
@@ -38,7 +38,7 @@ class LibraryDownload extends AbstractCommand
 
             $file = $offset . '.json';
 
-            if( Flysystem::has( $file ) )
+            if( Storage::exists( $file ) )
             {
                 $this->warn('Found ' . $file);
                 continue;
@@ -46,7 +46,7 @@ class LibraryDownload extends AbstractCommand
 
             $response = $this->query( $offset, $this->limit );
 
-            Flysystem::put( $file, $response->body );
+            Storage::put( $file, $response->body );
 
             $this->info('Saved ' . $file);
 

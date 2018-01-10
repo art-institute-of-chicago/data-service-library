@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use App\Material;
 use App\Term;
 
-use GrahamCampbell\Flysystem\Facades\Flysystem;
+use Illuminate\Support\Facades\Storage;
 
 use Aic\Hub\Foundation\AbstractCommand;
 
@@ -31,7 +31,7 @@ class LibraryImport extends AbstractCommand
         // Uncomment for testing
         // $paths = $paths->slice(0,2);
 
-        // Turn the full paths to relative for Flysystem
+        // Turn the full paths to relative for Storage
         $files = $paths->map( function( $path ) use ( $directory ) {
             // +1 to remove the starting forwardslash
             return substr( $path, strlen( $directory ) + 1 );
@@ -45,7 +45,7 @@ class LibraryImport extends AbstractCommand
     /**
      * Process a single file containing `docs` from Primo's PNX API.
      *
-     * @param string $path  Path to JSON file relative to Flysystem root
+     * @param string $path  Path to JSON file relative to Storage root
      * @return array
      */
     public function processFile( $path )
@@ -53,7 +53,7 @@ class LibraryImport extends AbstractCommand
 
         $file = basename( $path );
 
-        $contents = Flysystem::read( $file );
+        $contents = Storage::get( $file );
 
         $json = json_decode( $contents );
 
