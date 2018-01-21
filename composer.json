@@ -12,7 +12,7 @@
     ],
     "require": {
         "php": ">=7.0.0",
-        "aic/data-hub-foundation": "dev-master#ccb35d9a7aa38dd84d80a8e4b46cb3b38f559f39",
+        "aic/data-hub-foundation": "dev-master#dd91c35745b6b61607b0f558dbba984bc0af96ca",
         "fideloper/proxy": "~3.3",
         "laravel/framework": "5.5.*",
         "laravel/tinker": "~1.0"
