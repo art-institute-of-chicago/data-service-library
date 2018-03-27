@@ -25,7 +25,17 @@ class Kernel extends ConsoleKernel
      */
     protected function schedule(Schedule $schedule)
     {
-        //
+
+        $schedule->command('library:import --quiet')
+            ->dailyAt('01:' .(config('app.env') == 'production' ? '00' : '15'))
+            ->withoutOverlapping()
+            ->before(function () {
+                Artisan::call('library:download', ['--quiet' => 'default']);
+            })
+            ->appendOutputTo(storage_path('logs/import.log'))
+            ->sendOutputTo(storage_path('logs/import-last-run.log'))
+            ->emailOutputTo([env('LOG_EMAIL_1'), env('LOG_EMAIL_2')], true);
+
     }
 
     /**
