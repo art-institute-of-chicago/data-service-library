@@ -27,7 +27,7 @@ class Kernel extends ConsoleKernel
     {
 
         $schedule->command('library:import --quiet')
-            ->dailyAt('01:' .(config('app.env') == 'production' ? '00' : '15'))
+            ->monthlyOn(1, '01:' .(config('app.env') == 'production' ? '00' : '15'))
             ->withoutOverlapping()
             ->before(function () {
                 Artisan::call('library:download', ['--quiet' => 'default']);
