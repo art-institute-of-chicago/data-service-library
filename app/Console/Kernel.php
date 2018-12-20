@@ -33,8 +33,7 @@ class Kernel extends ConsoleKernel
                 Artisan::call('library:download', ['--quiet' => 'default']);
             })
             ->appendOutputTo(storage_path('logs/import.log'))
-            ->sendOutputTo(storage_path('logs/import-last-run.log'))
-            ->emailOutputTo([env('LOG_EMAIL_1'), env('LOG_EMAIL_2')], true);
+            ->sendOutputTo(storage_path('logs/import-last-run.log'));
 
     }
 
