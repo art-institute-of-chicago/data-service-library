@@ -11,10 +11,9 @@
         }
     ],
     "require": {
-        "php": ">=7.0.0",
-        "aic/data-hub-foundation": "dev-master#dd91c35745b6b61607b0f558dbba984bc0af96ca",
-        "fideloper/proxy": "~3.3",
-        "laravel/framework": "5.5.*",
+        "php": "^7.1.3",
+        "aic/data-hub-foundation": "dev-master",
+        "laravel/framework": "5.8.*",
         "laravel/tinker": "~1.0"
     },
     "require-dev": {
