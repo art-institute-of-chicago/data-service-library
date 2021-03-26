@@ -7,30 +7,31 @@ use Illuminate\Database\Migrations\Migration;
 class Materials extends Migration
 {
 
-    protected $material_terms = ['material_creator', 'material_subject'];
+    protected $material_terms = [
+        'material_creator',
+        'material_subject',
+    ];
 
     public function up()
     {
-
         $this->down();
 
-        Schema::create('materials', function(Blueprint $table) {
+        Schema::create('materials', function (Blueprint $table) {
             $table->string('id')->index();
             $table->text('title')->nullable();
             $table->integer('date')->nullable()->index();
             $table->timestamps();
         });
 
-        Schema::create('terms', function(Blueprint $table) {
+        Schema::create('terms', function (Blueprint $table) {
             $table->string('id')->index();
             $table->string('uri')->index();
             $table->text('title')->nullable();
             $table->timestamps();
         });
 
-        foreach( $this->material_terms as $material_term ) {
-
-            Schema::create($material_term, function(Blueprint $table) {
+        foreach($this->material_terms as $material_term) {
+            Schema::create($material_term, function (Blueprint $table) {
                 $table->increments('id');
                 $table->string('material_id')->index();
                 $table->foreign('material_id')->references('id')->on('materials')->onDelete('cascade');
@@ -38,23 +39,17 @@ class Materials extends Migration
                 $table->foreign('term_id')->references('id')->on('terms')->onDelete('cascade');
                 $table->timestamps();
             });
-
         }
-
     }
 
     public function down()
     {
-
-        foreach( $this->material_terms as $material_term ) {
-
-            Schema::dropIfExists( $material_term );
-
+        foreach($this->material_terms as $material_term) {
+            Schema::dropIfExists($material_term);
         }
 
         Schema::dropIfExists('materials');
         Schema::dropIfExists('terms');
-
     }
 
 }

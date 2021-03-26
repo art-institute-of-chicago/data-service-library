@@ -20,14 +20,13 @@ class Kernel extends ConsoleKernel
     /**
      * Define the application's command schedule.
      *
-     * @param  \Illuminate\Console\Scheduling\Schedule  $schedule
      * @return void
      */
     protected function schedule(Schedule $schedule)
     {
 
         $schedule->command('library:import --quiet')
-            ->monthlyOn(1, '01:' .(config('app.env') == 'production' ? '00' : '15'))
+            ->monthlyOn(1, '01:' . (config('app.env') === 'production' ? '00' : '15'))
             ->before(function () {
                 Artisan::call('library:download', ['--quiet' => 'default']);
             })

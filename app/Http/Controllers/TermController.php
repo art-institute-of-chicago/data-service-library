@@ -17,11 +17,9 @@ class TermController extends BaseController
      * @param string $id
      * @return boolean
      */
-    protected function validateId( $id )
+    protected function validateId($id)
     {
-
         return preg_match('/[a-z]+[0-9]+/', $id);
-
     }
 
 }
